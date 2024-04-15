@@ -1,4 +1,7 @@
 export default function MainPage() {
-
-    return <>ok mec</>;
+    return (
+        <>
+            app pagnan
+        </>
+    );
 }
