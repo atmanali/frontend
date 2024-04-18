@@ -7,17 +7,19 @@ export type Props = {
 
 export default function TopBarItem({ title, selected }: Props ) {
     const color = selected ? 'text.primary' : 'text.secondary';
+    const body = selected ? 'body1' : 'body2';
+    const textDecoration = `${selected ? 'underline' : 'none'}`;
     return (
         <>
             <Typography
-                variant={'h6'}
+                variant={body}
                 color={color}
                 sx={{
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    textDecoration: textDecoration,
                 }}
             >
                 {title}
-                <Divider sx={{borderColor: `${color}`}} />
             </Typography>
         </>
     );

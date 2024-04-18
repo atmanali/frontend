@@ -1,5 +1,7 @@
-import { AppBar, Avatar, Box, Container, Divider, Icon, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, Container, Icon, IconButton, Menu } from '@mui/material';
 import TopBarItem, { Props as TopBarItemProps } from './TopBarItem';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
 }
 
 export default function ( { topBarItems }:Props ) {
+    const [anchorMenu, setAnchorMenu] = useState<null | HTMLElement>()
+    const router = useRouter();
 
     return (
         <>
@@ -25,17 +29,47 @@ export default function ( { topBarItems }:Props ) {
                         alignItems: 'center',
                     }}
                 >
-                    <Box display={'flex'} flex={1} gap={5} alignItems={'center'} >
-                    <Icon
+                    <Box
                         sx={{
-                            background: '#7fe1ff',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: {mobile: 5, laptop: 10},
                         }}
-                    />
-                        <Box display={'flex'} flex={1} gap={3} >
+                    >
+                        <IconButton
+                            onClick={() => router.push('/')}
+                            sx={{
+                                background: '#7fe1ff',
+                                display: {mobile: 'none', tablet:'inline'},
+                            }}
+                        />
+                        <Box
+                            sx={{
+                                display: {mobile: 'none', tablet: 'flex'},
+                                gap: {tablet: 3, laptop: 9},
+                            }}
+                        >
                             {topBarItems?.map((tabItem) => (
                                 <TopBarItem key={tabItem.title} title={tabItem.title} selected={tabItem.selected} />
                             ))}
                         </Box>
+                        {/*mobile*/}
+                        <Icon
+                            onClick={(event) => setAnchorMenu(event.currentTarget)}
+                            sx={{
+                                background: '#89f6a0',
+                                display: {mobile: 'inline', tablet:'none'},
+                            }}
+                        />
+                        <Menu
+                            open={Boolean(anchorMenu)}
+                            anchorEl={anchorMenu}
+                            onClose={() => setAnchorMenu(null)}
+                            onClick={() => setAnchorMenu(null)}
+                        >
+                            this is my menu
+                        </Menu>
+
                     </Box>
                     <Avatar />
                 </Container>
