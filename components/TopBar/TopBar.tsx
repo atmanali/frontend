@@ -1,11 +1,12 @@
-import { AppBar, Avatar, Box, Container, Icon, IconButton, Menu } from '@mui/material';
+import { AppBar, Avatar, Box, Container, Icon, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import TopBarItem, { Props as TopBarItemProps } from './TopBarItem';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 
 type Props = {
     topBarItems: TopBarItemProps[];
+    setTopBarItems: React.Dispatch<React.SetStateAction<TopBarItemProps[]>>
 }
 
 export default function ( { topBarItems }:Props ) {
@@ -47,10 +48,11 @@ export default function ( { topBarItems }:Props ) {
                             sx={{
                                 display: {mobile: 'none', tablet: 'flex'},
                                 gap: {tablet: 3, laptop: 9},
+                                alignItems: 'baseline',
                             }}
                         >
                             {topBarItems?.map((tabItem) => (
-                                <TopBarItem key={tabItem.title} title={tabItem.title} selected={tabItem.selected} />
+                                <TopBarItem key={tabItem.title} title={tabItem.title} href={tabItem.href} />
                             ))}
                         </Box>
                         {/*mobile*/}
@@ -66,12 +68,25 @@ export default function ( { topBarItems }:Props ) {
                             anchorEl={anchorMenu}
                             onClose={() => setAnchorMenu(null)}
                             onClick={() => setAnchorMenu(null)}
+                            sx={{ paddingRight: 4 }}
                         >
-                            this is my menu
+                            <MenuItem component={'a'} href={'/'}>
+                                <Typography
+                                    variant={'body1'}
+                                    sx={{
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    Accueil
+                                </Typography>
+                            </MenuItem>
+                            {topBarItems?.map((tabItem) => (
+                                <TopBarItem key={tabItem.title} title={tabItem.title} href={tabItem.href} menuItem />
+                            ))}
                         </Menu>
 
                     </Box>
-                    <Avatar />
+                    <IconButton><Avatar /></IconButton>
                 </Container>
             </AppBar>
         </>

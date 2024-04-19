@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter/';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -7,27 +7,20 @@ import { Props as TopBarItemProps } from '../components/TopBar/TopBarItem';
 import TopBar from '../components/TopBar/TopBar';
 import { ThemeProvider } from '@mui/material';
 import theme from '../styles/theme';
-
 const queryClient = new QueryClient();
+
+
+const initialTopBarItems: TopBarItemProps[] = [
+    { title: 'Résultats', href: 'results', },
+    { title: 'Calendrier', href: 'calendar', },
+    { title: 'Messagerie', href: 'messaging', },
+    { title: 'Informations', href: 'information', }
+]
+
+
 export default function App({ Component, pageProps }: AppProps) {
-    const topBarItems: TopBarItemProps[] = [
-        {
-            title: 'Résultats',
-            selected: true,
-        },
-        {
-            title: 'Calendrier',
-            selected: false,
-        },
-        {
-            title: 'Messagerie',
-            selected: false,
-        },
-        {
-            title: 'Informations',
-            selected: false,
-        }
-    ]
+  const [topBarItems, setTopBarItems] = useState(initialTopBarItems);
+
   return (
     <QueryClientProvider client={queryClient}>
         <AppCacheProvider>
@@ -38,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
             </Head>
             <ThemeProvider theme={theme} >
-                <TopBar topBarItems={topBarItems} />
+                <TopBar topBarItems={topBarItems} setTopBarItems={setTopBarItems} />
                 <main style={{position: 'relative', top: '4rem'}}>
                     <Component {...pageProps} />
                 </main>
