@@ -1,4 +1,15 @@
-import { AppBar, Avatar, Box, Container, Icon, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Container,
+    Icon,
+    IconButton,
+    ListItemButton,
+    Menu,
+    MenuItem,
+    Typography,
+} from '@mui/material';
 import TopBarItem, { Props as TopBarItemProps } from './TopBarItem';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -86,7 +97,21 @@ export default function ( { topBarItems }:Props ) {
                         </Menu>
 
                     </Box>
-                    <IconButton><Avatar /></IconButton>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            color: 'text.primary',
+                            fontWeight: 'bold',
+                            fontSize: '1.3em',
+                            fontFamily: 'monospace',
+                            //background:'blue',
+                        }}
+                    >
+                        Atman Ali
+                        <Avatar />
+                    </Box>
                 </Container>
             </AppBar>
         </>
