@@ -1,19 +1,11 @@
 import { Button } from "@mui/material";
-import { login } from '../utils/authentication';
-import { isRequestSuccessful } from '../utils/requestUtils';
+import { useRouter } from 'next/router';
 
 export default function MainPage() {
+    const router = useRouter();
     return (
         <>
-            app pagnan
-            <Button
-                onClick={() => {
-                    login({username: 'atmanali', password: 'atmanali'})
-                        .then((response)=>{
-                            isRequestSuccessful(response) && console.log(response.data)
-                        })
-                }}
-            > log in </Button>
+            <Button onClick={()=>router.push('/login')}> log in </Button>
         </>
     );
 }

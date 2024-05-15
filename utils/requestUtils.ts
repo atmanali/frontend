@@ -5,9 +5,8 @@ export const formatRequest = (response: Response): Promise<{
     status: number;
     data?: {};
 }> => {
-    console.log('response', response);
     if (isRequestSuccessful(response)) return response.json()
-    else return Promise.resolve({ status: 500 })
+    else return Promise.reject({ status: 500 })
 }
 
 export const initRequest = (method: string = 'get', HeadersAndBody: {headers?: {}, body?: Object}) => {

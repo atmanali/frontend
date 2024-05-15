@@ -1,3 +1,7 @@
+import '../styles/normalize.css';
+import '../styles/globals.css';
+import { theme } from '../styles/theme';
+
 import { AppProps } from 'next/app';
 import React, { useState } from 'react';
 import Head from 'next/head';
@@ -6,7 +10,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Props as TopBarItemProps } from '../components/TopBar/TopBarItem';
 import TopBar from '../components/TopBar/TopBar';
 import { ThemeProvider } from '@mui/material';
-import theme from '../styles/theme';
+import Authentication from '../components/Authentication/Authentication';
 const queryClient = new QueryClient();
 
 
@@ -32,8 +36,12 @@ export default function App({ Component, pageProps }: AppProps) {
             </Head>
             <ThemeProvider theme={theme} >
                 <TopBar topBarItems={topBarItems} setTopBarItems={setTopBarItems} />
-                <main style={{position: 'relative', top: '4rem'}}>
-                    <Component {...pageProps} />
+                <main id={'main'}>
+                    <Authentication>
+                        <div id={'content'}>
+                            <Component {...pageProps} />
+                        </div>
+                    </Authentication>
                 </main>
             </ThemeProvider>
         </AppCacheProvider>
