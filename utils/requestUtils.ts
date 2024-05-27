@@ -1,25 +1,39 @@
-export const isRequestSuccessful = (response: Response|{status: number}) => {
-    return response.status==200 || response.status==204;
-}
-export const formatRequest = (response: Response): Promise<{
-    status: number;
-    data?: {};
-}> => {
-    if (isRequestSuccessful(response)) return response.json()
-    else return Promise.reject({ status: 500 })
-}
+export const isRequestSuccessful = (
+  response: Response | { status: number },
+) => {
+  return response.status == 200;
+};
 
-export const initRequest = (method: string = 'get', HeadersAndBody: {headers?: {}, body?: Object}) => {
-    const myHeaders = new Headers({
-        'Content-Type': 'application/json',
-        ...HeadersAndBody.headers
-    })
-    const init: RequestInit = {
-        method: method.toUpperCase(),
-        headers: myHeaders,
-    }
+/**
+ * @param response
+ * @returns response formatted response
+ */
+export const formatResponse = async (response: Response) => {
+  /*
+        todo:
+            Il faut traîter les différents codes de réponse ici
+            et renvoyer les données s'il y en a
+     */
+  return isRequestSuccessful(response)
+    ? { status: response.status, data: await response.json() }
+    : { status: response.status };
+};
 
-    if (HeadersAndBody.body) init.body = JSON.stringify(HeadersAndBody.body);
-
-    return init;
-}
+const addBodyToInit = (myInit: RequestInit, body?: {}) => {
+  if (body) myInit.body = JSON.stringify(body);
+};
+export const initRequest = (
+  method: string = "get",
+  HeadersAndBody?: { headers?: {}; body?: Object },
+) => {
+  const myHeaders = new Headers({
+    "Content-Type": "application/json",
+    ...HeadersAndBody?.headers,
+  });
+  const init: RequestInit = {
+    method: method.toUpperCase(),
+    headers: myHeaders,
+  };
+  addBodyToInit(init, HeadersAndBody?.body);
+  return init;
+};
